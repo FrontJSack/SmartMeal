@@ -1,6 +1,7 @@
 import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -12,6 +13,7 @@ import { ShoppingListService, ShoppingItem } from '../../core/services/shopping-
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     CardModule,
     ButtonModule,
     CheckboxModule,
@@ -67,9 +69,9 @@ import { ShoppingListService, ShoppingItem } from '../../core/services/shopping-
               <div *ngFor="let item of getCategoryItems(category)" 
                    class="item-row"
                    [class.checked]="item.checked">
-                <p-checkbox [(ngModel)]="item.checked"
-                           [binary]="true"
-                           (onChange)="toggleItem(item)"
+                <p-checkbox [binary]="true"
+                           [ngModel]="item.checked"
+                           (ngModelChange)="onItemToggle(item, $event)"
                            [inputId]="item.name"></p-checkbox>
                 
                 <label [for]="item.name" class="item-label">
@@ -253,7 +255,7 @@ export class ShoppingListComponent {
     return this.getTotalItems() - this.getCheckedItems();
   }
 
-  toggleItem(item: ShoppingItem): void {
+  onItemToggle(item: ShoppingItem, checked: boolean): void {
     this.shoppingService.toggleItem(item);
   }
 

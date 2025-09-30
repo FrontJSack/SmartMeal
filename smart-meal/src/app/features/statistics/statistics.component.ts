@@ -2,7 +2,6 @@ import { Component, inject, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
-import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { MealPlannerService } from '../../core/services/meal-planner.service';
 import { WeightTrackerService } from '../../core/services/weight-tracker.service';
@@ -15,8 +14,7 @@ import { RecipeService } from '../../core/services/recipe.service';
     CommonModule,
     FormsModule,
     CardModule,
-    ChartModule,
-    CalendarModule
+    ChartModule
   ],
   template: `
     <div>

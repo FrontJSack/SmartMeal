@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { CalendarModule } from 'primeng/calendar';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DatePickerModule } from 'primeng/datepicker';
+import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { WeightTrackerService } from '../../core/services/weight-tracker.service';
@@ -20,8 +20,8 @@ import { WeightEntry } from '../../core/models/weight.model';
     CardModule,
     ButtonModule,
     InputNumberModule,
-    CalendarModule,
-    InputTextareaModule,
+    DatePickerModule,
+    InputTextModule,
     TableModule,
     TagModule
   ],
@@ -45,20 +45,19 @@ import { WeightEntry } from '../../core/models/weight.model';
 
             <div class="form-field">
               <label for="date">Data pomiaru</label>
-              <p-calendar [(ngModel)]="newDate"
-                         inputId="date"
-                         [showIcon]="true"
-                         dateFormat="dd.mm.yy"
-                         [style]="{'width': '100%'}"></p-calendar>
+              <p-datePicker [(ngModel)]="newDate"
+                           inputId="date"
+                           [showIcon]="true"
+                           dateFormat="dd.mm.yy"
+                           [style]="{'width': '100%'}"></p-datePicker>
             </div>
 
             <div class="form-field">
               <label for="notes">Notatki (opcjonalnie)</label>
-              <textarea pInputTextarea
-                       [(ngModel)]="newNotes"
-                       inputId="notes"
-                       rows="3"
-                       [style]="{'width': '100%'}"></textarea>
+              <input pInputText
+                     [(ngModel)]="newNotes"
+                     inputId="notes"
+                     [style]="{'width': '100%'}" />
             </div>
 
             <p-button label="Dodaj pomiar" 
@@ -245,8 +244,8 @@ export class WeightTrackerComponent {
     const previous = entries[index - 1].weight;
     const diff = current - previous;
 
-    if (diff < 0) return 'success'; // Weight loss
-    if (diff > 0) return 'danger';  // Weight gain
+    if (diff < 0) return 'success';
+    if (diff > 0) return 'danger';
     return 'info';
   }
 }
