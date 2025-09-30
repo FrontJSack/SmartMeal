@@ -10,16 +10,14 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, RouterOutlet, MenubarModule],
   template: `
     <div class="app-wrapper">
-      <header class="app-header">
-        <p-menubar [model]="menuItems">
-          <ng-template pTemplate="start">
-            <div class="brand">
-              <i class="pi pi-heart-fill brand-icon"></i>
-              <span class="brand-name">SmartMeal</span>
-            </div>
-          </ng-template>
-        </p-menubar>
-      </header>
+      <p-menubar [model]="menuItems">
+        <ng-template pTemplate="start">
+          <div class="brand">
+            <i class="pi pi-heart-fill"></i>
+            <span>SmartMeal</span>
+          </div>
+        </ng-template>
+      </p-menubar>
 
       <main class="layout-main-container">
         <router-outlet></router-outlet>
@@ -34,47 +32,36 @@ import { CommonModule } from '@angular/common';
       background: var(--surface-ground);
     }
 
-    .app-header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: var(--surface-card);
-      box-shadow: var(--shadow-sm);
-    }
-
     .brand {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      padding-right: 1.5rem;
+      padding: 0 1.5rem 0 0;
+      margin-right: 1.5rem;
       border-right: 1px solid var(--surface-border);
-      margin-right: 1rem;
-    }
-
-    .brand-icon {
-      font-size: 1.5rem;
-      color: var(--primary-600);
-    }
-
-    .brand-name {
       font-size: 1.25rem;
       font-weight: 700;
       color: var(--text-color);
-      letter-spacing: -0.025em;
+    }
+
+    .brand i {
+      font-size: 1.5rem;
+      color: var(--primary-500);
     }
 
     .layout-main-container {
       flex: 1;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 960px) {
       .brand {
-        padding-right: 0.75rem;
-        margin-right: 0.75rem;
+        padding: 0;
+        margin: 0;
+        border: none;
       }
-
-      .brand-name {
-        font-size: 1.125rem;
+      
+      .brand span {
+        display: none;
       }
     }
   `]
