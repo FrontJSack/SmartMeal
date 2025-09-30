@@ -75,61 +75,93 @@ import { Recipe } from '../../../core/models/recipe.model';
     </p-card>
   `,
   styles: [`
-    .card-content {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
+  :host {
+    display: block;
+    height: 100%;
+  }
 
-    .recipe-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin: 0;
-      color: var(--text-color);
-    }
+  :host ::ng-deep .p-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface-card) !important;
+    border: 1px solid var(--surface-border) !important;
+  }
 
-    .recipe-description {
-      color: var(--text-color-secondary);
-      margin: 0;
-      font-size: 0.875rem;
-      line-height: 1.5;
-    }
+  :host ::ng-deep .p-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 !important;
+  }
 
-    .recipe-meta {
-      display: flex;
-      gap: 1rem;
-      color: var(--text-color-secondary);
-      font-size: 0.875rem;
-    }
+  :host ::ng-deep .p-card-content {
+    flex: 1;
+    padding: 1.5rem !important;
+  }
 
-    .nutrition-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
-      padding: 1rem;
-      background: var(--surface-section);
-      border-radius: 8px;
-    }
+  :host ::ng-deep .p-card-footer {
+    padding: 1rem 1.5rem !important;
+    background: var(--surface-section) !important;
+    border-top: 1px solid var(--surface-border) !important;
+  }
 
-    .nutrition-item {
-      text-align: center;
-    }
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 
-    .nutrition-value {
-      font-size: 1.125rem;
-      font-weight: 700;
-      color: var(--primary-color);
-    }
+  .recipe-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-color);
+  }
 
-    .nutrition-label {
-      font-size: 0.75rem;
-      color: var(--text-color-secondary);
-      margin-top: 0.25rem;
-    }
+  .recipe-description {
+    color: var(--text-color-secondary);
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
 
-    :host ::ng-deep .flex-1 {
-      flex: 1;
-    }
+  .recipe-meta {
+    display: flex;
+    gap: 1rem;
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+  }
+
+  .nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--surface-section);
+    border-radius: 8px;
+    margin-top: 0.5rem;
+  }
+
+  .nutrition-item {
+    text-align: center;
+  }
+
+  .nutrition-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-500);
+  }
+
+  .nutrition-label {
+    font-size: 0.75rem;
+    color: var(--text-color-secondary);
+    margin-top: 0.25rem;
+  }
+
+  :host ::ng-deep .p-card-footer .p-button {
+    width: 100%;
+  }
   `]
 })
 export class RecipeCardComponent {

@@ -138,140 +138,182 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
     </p-dialog>
   `,
   styles: [`
-    .week-summary {
-      margin-bottom: 2rem;
-    }
+  .week-summary {
+    margin-bottom: 2rem;
+  }
 
-    .stat-card {
-      text-align: center;
-      padding: 1rem;
-    }
+  :host ::ng-deep .week-summary .p-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
 
+  :host ::ng-deep .week-summary .p-card-body {
+    padding: 0 !important;
+  }
+
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  :host ::ng-deep .day-card .p-card {
+    background: var(--surface-card) !important;
+    border: 1px solid var(--surface-border) !important;
+    height: 100%;
+  }
+
+  :host ::ng-deep .day-card .p-card-header {
+    background: var(--surface-section) !important;
+    padding: 1rem 1.5rem !important;
+    border-bottom: 1px solid var(--surface-border) !important;
+  }
+
+  :host ::ng-deep .day-card .p-card-body {
+    padding: 1.5rem !important;
+    background: var(--surface-card) !important;
+  }
+
+  .day-header {
+    text-align: center;
+  }
+
+  .day-header h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-color);
+  }
+
+  .day-date {
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+  }
+
+  .meals-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .meal-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .meal-slot-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+  }
+
+  .meal-slot-header i {
+    color: var(--primary-500);
+  }
+
+  .meal-content {
+    background: var(--surface-overlay);
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid var(--surface-border);
+  }
+
+  .meal-recipe {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .meal-recipe-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .meal-recipe-name {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.25rem;
+  }
+
+  .meal-recipe-calories {
+    font-size: 0.875rem;
+    color: var(--text-color-secondary);
+  }
+
+  .empty-meal-slot {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    border: 2px dashed var(--surface-border);
+    border-radius: 8px;
+    background: var(--surface-section);
+  }
+
+  :host ::ng-deep .empty-meal-slot .p-button {
+    width: 100%;
+  }
+
+  .day-nutrition {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--surface-border);
+  }
+
+  .nutrition-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.875rem 1rem;
+    background: var(--surface-overlay);
+    border-radius: 8px;
+    border: 1px solid var(--surface-border);
+  }
+
+  .nutrition-summary-label {
+    font-weight: 600;
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+  }
+
+  .nutrition-summary-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-500);
+  }
+
+  .recipe-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 1rem 0;
+  }
+
+  :host ::ng-deep .p-dialog .p-dialog-header {
+    background: var(--surface-section) !important;
+    color: var(--text-color) !important;
+  }
+
+  :host ::ng-deep .p-dialog .p-dialog-content {
+    background: var(--surface-card) !important;
+  }
+
+  @media (max-width: 768px) {
     .days-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .day-header {
-      padding: 1rem 1.5rem;
-      text-align: center;
-    }
-
-    .day-header h3 {
-      margin: 0;
-      font-size: 1.25rem;
-      font-weight: 700;
-    }
-
-    .day-date {
-      color: var(--text-color-secondary);
-      font-size: 0.875rem;
-    }
-
-    .meals-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .meal-slot {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .meal-slot-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 600;
-      color: var(--text-color-secondary);
-      font-size: 0.875rem;
-    }
-
-    .meal-slot-header i {
-      color: var(--primary-color);
-    }
-
-    .meal-content {
-      background: var(--surface-section);
-      border-radius: 8px;
-      padding: 0.75rem;
-    }
-
-    .meal-recipe {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .meal-recipe-name {
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .meal-recipe-calories {
-      font-size: 0.875rem;
-      color: var(--text-color-secondary);
-    }
-
-    .empty-meal-slot {
-      display: flex;
-      justify-content: center;
-      padding: 1rem;
-      border: 2px dashed var(--surface-border);
-      border-radius: 8px;
-    }
-
-    .day-nutrition {
-      margin-top: 1rem;
-    }
-
-    .nutrition-summary {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem;
-      background: var(--surface-section);
-      border-radius: 8px;
-    }
-
-    .nutrition-summary-label {
-      font-weight: 600;
-      color: var(--text-color-secondary);
-    }
-
-    .nutrition-summary-value {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--primary-color);
+      grid-template-columns: 1fr;
     }
 
     .recipe-selector-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-      max-height: 60vh;
-      overflow-y: auto;
-      padding: 1rem 0;
+      grid-template-columns: 1fr;
     }
-
-    .empty-state {
-      text-align: center;
-      padding: 2rem;
-      color: var(--text-color-secondary);
-    }
-
-    @media (max-width: 768px) {
-      .days-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .week-summary .grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-      }
-    }
+  }
   `]
 })
 export class MealPlannerComponent {
