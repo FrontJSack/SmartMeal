@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
+import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 import { MenuItem } from 'primeng/api';
 import { CommonModule } from '@angular/common';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MenubarModule],
+  imports: [CommonModule, RouterOutlet, MenubarModule, ButtonModule, TooltipModule],
   template: `
     <div class="app-wrapper">
       <p-menubar [model]="menuItems">
@@ -16,6 +19,16 @@ import { CommonModule } from '@angular/common';
             <i class="pi pi-heart-fill"></i>
             <span>SmartMeal</span>
           </div>
+        </ng-template>
+        
+        <ng-template pTemplate="end">
+          <p-button 
+            [icon]="themeService.theme() === 'dark' ? 'pi pi-sun' : 'pi pi-moon'"
+            [rounded]="true"
+            [text]="true"
+            (onClick)="toggleTheme()"
+            [pTooltip]="themeService.theme() === 'dark' ? 'Tryb jasny' : 'Tryb ciemny'"
+            tooltipPosition="bottom"></p-button>
         </ng-template>
       </p-menubar>
 
@@ -67,6 +80,8 @@ import { CommonModule } from '@angular/common';
   `]
 })
 export class AppComponent {
+  themeService = inject(ThemeService);
+
   menuItems: MenuItem[] = [
     {
       label: 'Planer',
@@ -94,4 +109,8 @@ export class AppComponent {
       routerLink: '/stats'
     }
   ];
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
 }
