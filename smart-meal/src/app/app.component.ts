@@ -7,21 +7,19 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    MenubarModule
-  ],
+  imports: [CommonModule, RouterOutlet, MenubarModule],
   template: `
-    <div class="layout-wrapper">
-      <p-menubar [model]="menuItems">
-        <ng-template pTemplate="start">
-          <div class="flex align-center gap-2">
-            <i class="pi pi-heart-fill" style="font-size: 1.5rem; color: var(--primary-color)"></i>
-            <span class="font-bold text-xl">SmartMeal</span>
-          </div>
-        </ng-template>
-      </p-menubar>
+    <div class="app-wrapper">
+      <header class="app-header">
+        <p-menubar [model]="menuItems">
+          <ng-template pTemplate="start">
+            <div class="brand">
+              <i class="pi pi-heart-fill brand-icon"></i>
+              <span class="brand-name">SmartMeal</span>
+            </div>
+          </ng-template>
+        </p-menubar>
+      </header>
 
       <main class="layout-main-container">
         <router-outlet></router-outlet>
@@ -29,29 +27,55 @@ import { CommonModule } from '@angular/common';
     </div>
   `,
   styles: [`
-    .layout-wrapper {
+    .app-wrapper {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      background: var(--surface-ground);
+    }
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--surface-card);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding-right: 1.5rem;
+      border-right: 1px solid var(--surface-border);
+      margin-right: 1rem;
+    }
+
+    .brand-icon {
+      font-size: 1.5rem;
+      color: var(--primary-600);
+    }
+
+    .brand-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-color);
+      letter-spacing: -0.025em;
     }
 
     .layout-main-container {
       flex: 1;
     }
 
-    :host ::ng-deep .p-menubar {
-      border-radius: 0;
-      border-left: none;
-      border-right: none;
-      border-top: none;
-    }
+    @media (max-width: 768px) {
+      .brand {
+        padding-right: 0.75rem;
+        margin-right: 0.75rem;
+      }
 
-    .font-bold {
-      font-weight: 700;
-    }
-
-    .text-xl {
-      font-size: 1.25rem;
+      .brand-name {
+        font-size: 1.125rem;
+      }
     }
   `]
 })
