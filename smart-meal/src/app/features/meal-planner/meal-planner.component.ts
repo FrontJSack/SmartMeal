@@ -150,9 +150,10 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
               [closable]="true">
       <div class="recipe-selector-grid">
         <app-recipe-card *ngFor="let recipe of getFilteredRecipes()"
-                        [recipe]="recipe"
-                        [showAddButton]="true"
-                        (addToPlan)="selectRecipe($event)"></app-recipe-card>
+                [recipe]="recipe"
+                [showAddButton]="true"
+                (addToPlan)="selectRecipe($event)"
+                (viewDetails)="viewRecipeDetails($event)"></app-recipe-card>
       </div>
 
       <div *ngIf="getFilteredRecipes().length === 0" class="empty-state">
@@ -594,5 +595,9 @@ export class MealPlannerComponent {
 
   goToCurrentWeek(): void {
     this.mealPlannerService.goToCurrentWeek();
+  }
+
+  viewRecipeDetails(recipe: Recipe): void {
+  this.router.navigate(['/recipes', recipe.id]);
   }
 }
