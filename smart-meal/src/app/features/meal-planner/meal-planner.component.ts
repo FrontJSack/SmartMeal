@@ -24,18 +24,18 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
   ],
   template: `
     <div>
-      <div class="flex justify-between align-center mb-4">
+      <div class="planner-header">
         <h1 class="page-title">Planer Posiłków</h1>
-        <div class="flex gap-2">
-          <p-button label="Wyczyść tydzień" 
-                    icon="pi pi-trash" 
-                    severity="danger"
-                    [outlined]="true"
-                    (onClick)="clearWeek()"></p-button>
-          <p-button label="Zobacz listę zakupów" 
-                    icon="pi pi-shopping-cart"
-                    (onClick)="goToShopping()"></p-button>
-        </div>
+          <div class="action-buttons">
+            <p-button label="Wyczyść tydzień" 
+                      icon="pi pi-trash" 
+                      severity="danger"
+                      [outlined]="true"
+                      (onClick)="clearWeek()"></p-button>
+            <p-button label="Zobacz listę zakupów" 
+                      icon="pi pi-shopping-cart"
+                      (onClick)="goToShopping()"></p-button>
+          </div>
       </div>
 
       <div class="week-summary mb-4">
@@ -138,6 +138,56 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
     </p-dialog>
   `,
   styles: [`
+  .planner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 2rem;
+  }
+
+  .page-title {
+    margin: 0;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+
+  /* Make action buttons more prominent */
+  :host ::ng-deep .action-buttons .p-button {
+    padding: 1rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    border-radius: 12px;
+  }
+
+  :host ::ng-deep .action-buttons .p-button .p-button-icon {
+    font-size: 1.125rem;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .planner-header {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    :host ::ng-deep .action-buttons .p-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
   .week-summary {
     margin-bottom: 2rem;
   }
@@ -154,7 +204,7 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
 
   .days-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1.5rem;
   }
 
@@ -251,7 +301,7 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
     justify-content: center;
     padding: 1rem;
     border: 2px dashed var(--surface-border);
-    border-radius: 8px;
+    border-radius: 16px;
     background: var(--surface-section);
   }
 
@@ -305,12 +355,6 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
     background: var(--surface-card) !important;
   }
 
-  .days-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 1.5rem;
-  }
-
   @media (max-width: 768px) {
     .days-grid {
       grid-template-columns: 1fr;
@@ -319,31 +363,8 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
     .recipe-selector-grid {
       grid-template-columns: 1fr;
     }
-
-    /* Make buttons more touch-friendly on mobile */
-    :host ::ng-deep .p-button {
-      min-height: 48px;
-      font-size: 1rem;
-    }
   }
-
-  @media (max-width: 640px) {
-    .flex.justify-between {
-      flex-direction: column;
-      gap: 1rem;
-      align-items: stretch !important;
-    }
-
-    .flex.gap-2 {
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .flex.gap-2 .p-button {
-      width: 100%;
-    }
-  }
-`]
+  `]
 })
 export class MealPlannerComponent {
   private mealPlannerService = inject(MealPlannerService);
