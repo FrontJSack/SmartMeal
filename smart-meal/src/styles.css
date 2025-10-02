@@ -159,8 +159,19 @@ body {
   margin-bottom: 0.75rem;
 }
 
+@media screen and (max-width: 640px) {
+  .stat-label {
+    font-size: 0.5rem;
+  }
+  .stat-card {
+    padding: 1rem;
+    line-height: normal;
+  }
+  
+}
+
 .stat-value {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--primary-500);
   line-height: 1;
@@ -327,8 +338,8 @@ body {
 
 /* Active page indicator */
 .p-menubar .p-menuitem.p-menuitem-active > .p-menuitem-link {
-  background: var(--surface-overlay);
-  color: var(--primary-500);
+  background: var(--surface-overlay) !important;
+  color: var(--primary-500) !important;
   position: relative;
 }
 
@@ -344,6 +355,12 @@ body {
   border-radius: 3px 3px 0 0;
 }
 
+.p-menubar-item-icon {
+  color: var(--primary-600) !important;
+  margin-right: 0.5rem !important;
+  font-size: 1.225rem !important;
+}
+
 /* Hide hamburger on desktop */
 .p-menubar .p-menubar-button {
   display: none;
@@ -352,15 +369,36 @@ body {
 /* Mobile Menu */
 
 @media screen and (max-width: 960px) {
+  /* STICKY menubar container */
   .p-menubar {
-    padding: 1rem;
-    position: sticky;
+    position: sticky !important;
     top: 0;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background: var(--surface-card) !important;
   }
 
-  /* Show hamburger button */
-  .p-menubar .p-menubar-button {
+  /* Brand on left */
+  .p-menubar .p-menubar-start {
+    order: 1;
+    flex: 0 0 auto;
+  }
+
+  /* Theme toggle + Hamburger on right */
+  .p-menubar .p-menubar-end {
+    order: 2;
     display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  /* Hamburger button styling */
+  .p-menubar .p-menubar-button {
+    display: flex !important;
     align-items: center;
     justify-content: center;
     width: 3rem;
@@ -371,6 +409,7 @@ body {
     border: 1px solid var(--surface-border) !important;
     cursor: pointer;
     transition: all var(--transition-base);
+    margin-left: 12px;
   }
 
   .p-menubar .p-menubar-button:hover {
@@ -378,69 +417,78 @@ body {
     color: var(--primary-500) !important;
   }
 
-  /* Mobile menu dropdown */
+  /* Mobile dropdown menu - ABSOLUTE positioning relative to sticky parent */
   .p-menubar .p-menubar-root-list {
-    position: fixed !important;
-    top: 4.5rem !important;
+    position: absolute !important;
+    top: 100% !important;
     left: 0 !important;
     right: 0 !important;
     flex-direction: column;
     background: var(--surface-card) !important;
-    border: 1px solid var(--surface-border) !important;
-    border-top: none !important;
+    border-top: 1px solid var(--surface-border) !important;
     margin: 0 !important;
-    padding: 1rem !important;
+    padding: 2rem !important;
     box-shadow: var(--shadow-lg) !important;
-    max-height: calc(100vh - 5rem) !important;
+    max-height: calc(100vh - 6rem) !important;
     overflow-y: auto !important;
     z-index: 999 !important;
+    gap: 2.25rem !important;
+    border-radius: 0 0 20px 20px !important;
+    font-size: 1.325rem;
   }
 
   .p-menubar .p-menuitem {
     width: 100% !important;
-    margin-bottom: 0.5rem;
   }
 
+  /* Large, readable menu items */
   .p-menubar .p-menuitem-link {
     width: 100% !important;
-    padding: 1.25rem 1.5rem !important;
-    font-size: 1.125rem !important;
-    border-radius: 12px !important;
+    padding: 1.75rem 2rem !important;
+    font-size: 1.375rem !important;
+    font-weight: 600 !important;
+    border-radius: 14px !important;
     background: var(--surface-section) !important;
-    border: 1px solid var(--surface-border) !important;
+    border: 2px solid var(--surface-border) !important;
     justify-content: flex-start !important;
+    min-height: 75px !important;
+    transition: all var(--transition-base);
   }
 
   .p-menubar .p-menuitem-link:hover {
     background: var(--surface-hover) !important;
     color: var(--primary-500) !important;
     border-color: var(--primary-500) !important;
+    transform: translateX(4px);
   }
 
   .p-menubar .p-menuitem-link .p-menuitem-icon {
-    font-size: 1.5rem !important;
-    margin-right: 1rem !important;
+    font-size: 1.75rem !important;
+    margin-right: 1.25rem !important;
   }
 
-  /* Active page on mobile - green accent */
-  .p-menubar .p-menuitem.p-menuitem-active > .p-menuitem-link {
+  .p-menubar .p-menuitem-link .p-menuitem-text {
+    font-size: 1.375rem !important;
+  }
+
+  /* Active page styling */
+  .p-menubar .p-menuitem-active > .p-menuitem-link {
     background: var(--primary-600) !important;
     color: white !important;
     border-color: var(--primary-600) !important;
   }
 
-  .p-menubar .p-menuitem.p-menuitem-active > .p-menuitem-link::after {
+  .p-menubar .p-menuitem-active > .p-menuitem-link::after {
     display: none;
   }
 
-  /* Ensure menu items are visible and solid */
+  /* Show menu when open */
   .p-menubar.p-menubar-mobile-active .p-menubar-root-list {
     display: flex !important;
     opacity: 1 !important;
     visibility: visible !important;
   }
 }
-
 
 /* Card Enhancements */
 .p-card {

@@ -46,15 +46,15 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
               <div class="stat-value">{{ getMealCount() }}</div>
             </div>
             <div class="stat-card">
-              <div class="stat-label">Kalorie tygodniowo</div>
+              <div class="stat-label">Kalorie na tydzień</div>
               <div class="stat-value">{{ getWeeklyCalories() }}</div>
             </div>
             <div class="stat-card">
-              <div class="stat-label">Białko (g)</div>
+              <div class="stat-label">Białko w posiłkach (g)</div>
               <div class="stat-value">{{ getWeeklyProtein() }}</div>
             </div>
             <div class="stat-card">
-              <div class="stat-label">Średnio dziennie</div>
+              <div class="stat-label">Średnia kalorii dziennie</div>
               <div class="stat-value">{{ getAverageDailyCalories() }}</div>
             </div>
           </div>
