@@ -58,7 +58,8 @@ import { ThemeService } from './core/services/theme.service';
   }
 
   .brand i {
-    font-size: 1.5rem;
+    margin-left: 1.25rem;
+    font-size: 2rem;
     color: var(--primary-500);
   }
 
@@ -76,12 +77,6 @@ import { ThemeService } from './core/services/theme.service';
     
     .brand span {
       font-size: 1.125rem;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .brand span {
-      display: none;
     }
   }
 `]

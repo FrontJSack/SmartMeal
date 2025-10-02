@@ -285,24 +285,21 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: var(--surface-card);
+  background-color: var(--surface-ground) !important;
   border: none;
   border-bottom: 1px solid var(--surface-border);
   padding: 1.25rem 2rem;
   box-shadow: var(--shadow-sm);
+  height: 68px;
 }
 
-/* Desktop Menu Items */
+/* Desktop Menu */
 .p-menubar .p-menubar-root-list {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.p-menubar .p-menuitem {
-  position: relative;
 }
 
 .p-menubar .p-menuitem-link {
@@ -328,30 +325,40 @@ body {
   font-size: 1.125rem;
 }
 
-.p-menubar .p-menuitem-link .p-menuitem-text {
-  line-height: 1;
-}
-
-/* Active menu item */
-.p-menubar .p-menuitem.p-menuitem-active > .p-menuitem-link,
-.p-menubar .p-menuitem-link:focus {
+/* Active page indicator */
+.p-menubar .p-menuitem.p-menuitem-active > .p-menuitem-link {
   background: var(--surface-overlay);
   color: var(--primary-500);
-  outline: none;
+  position: relative;
 }
 
-/* Hide hamburger button on desktop */
+.p-menubar .p-menuitem.p-menuitem-active > .p-menuitem-link::after {
+  content: '';
+  position: absolute;
+  bottom: -1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 3px;
+  background: var(--primary-500);
+  border-radius: 3px 3px 0 0;
+}
+
+/* Hide hamburger on desktop */
 .p-menubar .p-menubar-button {
   display: none;
 }
 
-/* Mobile Styles - ONLY apply below 960px */
+/* Mobile Menu */
+
 @media screen and (max-width: 960px) {
   .p-menubar {
     padding: 1rem;
+    position: sticky;
+    top: 0;
   }
 
-  /* Show hamburger button on mobile */
+  /* Show hamburger button */
   .p-menubar .p-menubar-button {
     display: flex;
     align-items: center;
@@ -359,47 +366,78 @@ body {
     width: 3rem;
     height: 3rem;
     border-radius: 12px;
-    background: var(--surface-overlay);
-    color: var(--text-color);
-    border: 1px solid var(--surface-border);
+    background: var(--surface-overlay) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--surface-border) !important;
     cursor: pointer;
     transition: all var(--transition-base);
   }
 
   .p-menubar .p-menubar-button:hover {
-    background: var(--surface-hover);
-    color: var(--primary-500);
+    background: var(--surface-hover) !important;
+    color: var(--primary-500) !important;
   }
 
-  /* Mobile menu list */
+  /* Mobile menu dropdown */
   .p-menubar .p-menubar-root-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    position: fixed !important;
+    top: 4.5rem !important;
+    left: 0 !important;
+    right: 0 !important;
     flex-direction: column;
-    background: var(--surface-card);
-    border: 1px solid var(--surface-border);
-    border-top: none;
-    margin: 0;
-    padding: 1rem;
-    box-shadow: var(--shadow-lg);
+    background: var(--surface-card) !important;
+    border: 1px solid var(--surface-border) !important;
+    border-top: none !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+    box-shadow: var(--shadow-lg) !important;
+    max-height: calc(100vh - 5rem) !important;
+    overflow-y: auto !important;
+    z-index: 999 !important;
   }
 
   .p-menubar .p-menuitem {
-    width: 100%;
+    width: 100% !important;
+    margin-bottom: 0.5rem;
   }
 
   .p-menubar .p-menuitem-link {
-    width: 100%;
-    padding: 1.25rem 1.5rem;
-    font-size: 1.125rem;
-    justify-content: flex-start;
+    width: 100% !important;
+    padding: 1.25rem 1.5rem !important;
+    font-size: 1.125rem !important;
+    border-radius: 12px !important;
+    background: var(--surface-section) !important;
+    border: 1px solid var(--surface-border) !important;
+    justify-content: flex-start !important;
+  }
+
+  .p-menubar .p-menuitem-link:hover {
+    background: var(--surface-hover) !important;
+    color: var(--primary-500) !important;
+    border-color: var(--primary-500) !important;
   }
 
   .p-menubar .p-menuitem-link .p-menuitem-icon {
-    font-size: 1.5rem;
-    margin-right: 1rem;
+    font-size: 1.5rem !important;
+    margin-right: 1rem !important;
+  }
+
+  /* Active page on mobile - green accent */
+  .p-menubar .p-menuitem.p-menuitem-active > .p-menuitem-link {
+    background: var(--primary-600) !important;
+    color: white !important;
+    border-color: var(--primary-600) !important;
+  }
+
+  .p-menubar .p-menuitem.p-menuitem-active > .p-menuitem-link::after {
+    display: none;
+  }
+
+  /* Ensure menu items are visible and solid */
+  .p-menubar.p-menubar-mobile-active .p-menubar-root-list {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 }
 
