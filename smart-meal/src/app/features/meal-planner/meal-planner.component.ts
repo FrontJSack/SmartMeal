@@ -150,9 +150,10 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
               [closable]="true">
       <div class="recipe-selector-grid">
         <app-recipe-card *ngFor="let recipe of getFilteredRecipes()"
-                        [recipe]="recipe"
-                        [showAddButton]="true"
-                        (addToPlan)="selectRecipe($event)"></app-recipe-card>
+                [recipe]="recipe"
+                [showAddButton]="true"
+                (addToPlan)="selectRecipe($event)"
+                (viewDetails)="viewRecipeDetails($event)"></app-recipe-card>
       </div>
 
       <div *ngIf="getFilteredRecipes().length === 0" class="empty-state">
@@ -368,6 +369,51 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
     overflow-y: auto;
     padding: 1rem 0;
   }
+
+  :host ::ng-deep .recipe-selector-grid app-recipe-card .p-button:not(.p-button-outlined) {
+  padding: 1rem 1.75rem !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  border-radius: 12px !important;
+  background: var(--primary-600) !important;
+  color: white !important;
+  border: 2px solid var(--primary-600) !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: all var(--transition-base) !important;
+}
+
+:host ::ng-deep .recipe-selector-grid app-recipe-card .p-button:not(.p-button-outlined):hover {
+  background: var(--primary-700) !important;
+  border-color: var(--primary-500) !important;
+  box-shadow: var(--shadow-md) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Style the "Szczegóły" buttons to be outlined and secondary */
+:host ::ng-deep .recipe-selector-grid app-recipe-card .p-button.p-button-outlined {
+  padding: 0.875rem 1.5rem !important;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  border-radius: 12px !important;
+  border: 2px solid var(--surface-border) !important;
+  color: var(--text-color) !important;
+  background: transparent !important;
+}
+
+:host ::ng-deep .recipe-selector-grid app-recipe-card .p-button.p-button-outlined:hover {
+  border-color: var(--primary-500) !important;
+  color: var(--primary-500) !important;
+  background: transparent !important;
+}
+
+/* Ensure button container has proper spacing */
+:host ::ng-deep .recipe-selector-grid app-recipe-card .p-card-footer {
+  display: flex !important;
+  gap: 0.75rem !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 1.25rem 1.5rem !important;
+}
 
   :host ::ng-deep .p-dialog .p-dialog-header {
     background: var(--surface-section) !important;
@@ -594,5 +640,9 @@ export class MealPlannerComponent {
 
   goToCurrentWeek(): void {
     this.mealPlannerService.goToCurrentWeek();
+  }
+
+  viewRecipeDetails(recipe: Recipe): void {
+  this.router.navigate(['/recipes', recipe.id]);
   }
 }

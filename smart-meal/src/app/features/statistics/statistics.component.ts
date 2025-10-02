@@ -52,31 +52,32 @@ import { RecipeService } from '../../core/services/recipe.service';
 
       <div class="grid mb-4" style="grid-template-columns: 2fr 1fr; gap: 1.5rem;">
         <p-card header="Kalorie tygodniowe">
-          <p-chart type="bar" [data]="weeklyCaloriesData" [options]="chartOptions"></p-chart>
+          <p-chart type="bar" [data]="weeklyCaloriesData()" [options]="chartOptions"></p-chart>
         </p-card>
 
         <p-card header="Makroskładniki">
-          <p-chart type="doughnut" [data]="macrosData" [options]="doughnutOptions"></p-chart>
-          <div class="macros-legend">
-            <div class="macro-item">
-              <span class="macro-dot" style="background: #22c55e;"></span>
-              <span>Białko: {{ getWeeklyMacros().protein }}g</span>
+          <p-chart type="doughnut" [data]="macrosData()" [options]="doughnutOptions"></p-chart>
+
+            <div class="macros-legend">
+              <div class="macro-item">
+                <span class="macro-dot" style="background: #22c55e;"></span>
+                <span>Białko: {{ getWeeklyMacros().protein }}g</span>
+              </div>
+              <div class="macro-item">
+                <span class="macro-dot" style="background: #3b82f6;"></span>
+                <span>Węglowodany: {{ getWeeklyMacros().carbs }}g</span>
+              </div>
+              <div class="macro-item">
+                <span class="macro-dot" style="background: #f59e0b;"></span>
+                <span>Tłuszcze: {{ getWeeklyMacros().fats }}g</span>
+              </div>
             </div>
-            <div class="macro-item">
-              <span class="macro-dot" style="background: #3b82f6;"></span>
-              <span>Węglowodany: {{ getWeeklyMacros().carbs }}g</span>
-            </div>
-            <div class="macro-item">
-              <span class="macro-dot" style="background: #f59e0b;"></span>
-              <span>Tłuszcze: {{ getWeeklyMacros().fats }}g</span>
-            </div>
-          </div>
         </p-card>
       </div>
 
       <div *ngIf="weightService.entries().length > 1">
         <p-card header="Historia wagi">
-          <p-chart type="line" [data]="weightHistoryData" [options]="lineChartOptions"></p-chart>
+          <p-chart type="line" [data]="weightHistoryData()" [options]="lineChartOptions"></p-chart>
         </p-card>
       </div>
 
@@ -210,7 +211,8 @@ export class StatisticsComponent {
     }
   };
 
-  get weeklyCaloriesData() {
+  // Convert to computed signals to prevent recalculation
+  weeklyCaloriesData = computed(() => {
     const days = ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Nd'];
     const dayKeys: Array<'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'> = 
       ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -228,9 +230,9 @@ export class StatisticsComponent {
         borderRadius: 8
       }]
     };
-  }
+  });
 
-  get macrosData() {
+  macrosData = computed(() => {
     const macros = this.getWeeklyMacros();
     
     return {
@@ -240,9 +242,9 @@ export class StatisticsComponent {
         backgroundColor: ['#22c55e', '#3b82f6', '#f59e0b']
       }]
     };
-  }
+  });
 
-  get weightHistoryData() {
+  weightHistoryData = computed(() => {
     const entries = this.weightService.entries();
     
     return {
@@ -256,7 +258,7 @@ export class StatisticsComponent {
         fill: true
       }]
     };
-  }
+  });
 
   getPlannedMealsCount(): number {
     const plan = this.mealPlannerService.weekPlan();
