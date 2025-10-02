@@ -193,6 +193,20 @@ import { WeightEntry } from '../../core/models/weight.model';
   /* Container */
   .weight-container {
     position: relative;
+    max-width: 100%;
+  }
+
+  @media (max-width: 640px) {
+    .weight-container {
+      max-width: 340px;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 960px) {
+    .weight-container {
+      max-width: 90%;
+      position: auto;
+    }
   }
 
   /* Layout */
@@ -460,21 +474,67 @@ import { WeightEntry } from '../../core/models/weight.model';
     }
 
     .stats-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
     }
   }
 
   @media (max-width: 768px) {
+    /* Full width inputs on mobile */
     .date-input-wrapper,
     :host ::ng-deep .weight-form-card .p-inputnumber,
     :host ::ng-deep .weight-form-card input[pInputText] {
       max-width: none;
     }
 
+    /* Single column stats on mobile */
+    .stats-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    /* Reduce form field spacing */
+    .form-field {
+      margin-bottom: 1.25rem;
+    }
+
+    /* Adjust table for mobile */
     :host ::ng-deep .p-datatable .p-datatable-thead > tr > th,
     :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
       padding: 0.75rem 0.5rem;
       font-size: 0.875rem;
+    }
+
+    /* Hide table columns on very small screens */
+    :host ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(4),
+    :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(4) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    /* Extra small screens - minimal table */
+    :host ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(3),
+    :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(3) {
+      display: none;
+    }
+
+    /* Smaller button padding */
+    :host ::ng-deep .weight-form-card .p-button {
+      padding: 0.875rem 1.5rem;
+      font-size: 0.9375rem;
+    }
+
+    /* Compact inputs */
+    .date-display-input,
+    :host ::ng-deep .weight-form-card .p-inputnumber-input,
+    :host ::ng-deep .weight-form-card input[pInputText] {
+      padding: 0.75rem 1rem;
+      font-size: 0.9375rem;
+    }
+
+    .date-display-input {
+      padding-right: 2.5rem;
     }
   }
 `]

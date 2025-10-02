@@ -178,6 +178,13 @@ body {
   margin: 0.75rem 0;
 }
 
+@media screen and (max-width: 940px) {
+  .stat-value {
+    font-size: 1.25rem;
+  }
+  
+}
+
 .stat-sublabel {
   color: var(--text-color-light);
   font-size: 0.875rem;
@@ -696,11 +703,6 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--surface-overlay);
-}
-
-/* Smooth page transitions */
-router-outlet + * {
-  animation: fadeInUp var(--transition-slow);
 }
 
 /* Smooth page transitions */
