@@ -38,46 +38,53 @@ import { ThemeService } from './core/services/theme.service';
     </div>
   `,
   styles: [`
-    .app-wrapper {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: var(--surface-ground);
-    }
+  .app-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface-ground);
+  }
 
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 1.5rem 0 0;
+    margin-right: 1.5rem;
+    border-right: 1px solid var(--surface-border);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-color);
+  }
+
+  .brand i {
+    font-size: 1.5rem;
+    color: var(--primary-500);
+  }
+
+  .layout-main-container {
+    flex: 1;
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 960px) {
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0 1.5rem 0 0;
-      margin-right: 1.5rem;
-      border-right: 1px solid var(--surface-border);
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text-color);
+      padding: 0;
+      margin-right: 1rem;
+      border: none;
     }
+    
+    .brand span {
+      font-size: 1.125rem;
+    }
+  }
 
-    .brand i {
-      font-size: 1.5rem;
-      color: var(--primary-500);
+  @media (max-width: 640px) {
+    .brand span {
+      display: none;
     }
-
-    .layout-main-container {
-      flex: 1;
-    }
-
-    @media (max-width: 960px) {
-      .brand {
-        padding: 0;
-        margin: 0;
-        border: none;
-      }
-      
-      .brand span {
-        display: none;
-      }
-    }
-  `]
+  }
+`]
 })
 export class AppComponent {
   themeService = inject(ThemeService);

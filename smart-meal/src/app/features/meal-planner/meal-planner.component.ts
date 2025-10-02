@@ -305,6 +305,12 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
     background: var(--surface-card) !important;
   }
 
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
   @media (max-width: 768px) {
     .days-grid {
       grid-template-columns: 1fr;
@@ -313,8 +319,31 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
     .recipe-selector-grid {
       grid-template-columns: 1fr;
     }
+
+    /* Make buttons more touch-friendly on mobile */
+    :host ::ng-deep .p-button {
+      min-height: 48px;
+      font-size: 1rem;
+    }
   }
-  `]
+
+  @media (max-width: 640px) {
+    .flex.justify-between {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: stretch !important;
+    }
+
+    .flex.gap-2 {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .flex.gap-2 .p-button {
+      width: 100%;
+    }
+  }
+`]
 })
 export class MealPlannerComponent {
   private mealPlannerService = inject(MealPlannerService);

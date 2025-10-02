@@ -281,54 +281,128 @@ body {
   background: #b91c1c;
 }
 
-/* Enhanced Menubar */
 .p-menubar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   background: var(--surface-card);
   border: none;
   border-bottom: 1px solid var(--surface-border);
-  padding: 1rem 2rem;
+  padding: 1.25rem 2rem;
   box-shadow: var(--shadow-sm);
-  backdrop-filter: blur(10px);
 }
 
+/* Desktop Menu Items */
 .p-menubar .p-menubar-root-list {
-  gap: 0.5rem;
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.p-menubar .p-menuitem {
+  position: relative;
 }
 
 .p-menubar .p-menuitem-link {
-  padding: 0.875rem 1.5rem;
+  padding: 1rem 2rem;
   border-radius: 12px;
   transition: all var(--transition-base);
   color: var(--text-color);
   font-weight: 500;
-  font-size: 0.9375rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .p-menubar .p-menuitem-link:hover {
   background: var(--surface-hover);
   color: var(--primary-500);
-  transform: translateY(-1px);
 }
 
 .p-menubar .p-menuitem-link .p-menuitem-icon {
-  margin-right: 0.625rem;
+  margin-right: 0.75rem;
   font-size: 1.125rem;
 }
 
-.p-menubar .p-menuitem.p-menuitem-active > .p-menuitem-link {
-  background: var(--surface-overlay);
-  color: var(--primary-500);
+.p-menubar .p-menuitem-link .p-menuitem-text {
+  line-height: 1;
 }
 
-@media (max-width: 960px) {
+/* Active menu item */
+.p-menubar .p-menuitem.p-menuitem-active > .p-menuitem-link,
+.p-menubar .p-menuitem-link:focus {
+  background: var(--surface-overlay);
+  color: var(--primary-500);
+  outline: none;
+}
+
+/* Hide hamburger button on desktop */
+.p-menubar .p-menubar-button {
+  display: none;
+}
+
+/* Mobile Styles - ONLY apply below 960px */
+@media screen and (max-width: 960px) {
   .p-menubar {
-    padding: 0.875rem 1rem;
+    padding: 1rem;
   }
-  
+
+  /* Show hamburger button on mobile */
+  .p-menubar .p-menubar-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 12px;
+    background: var(--surface-overlay);
+    color: var(--text-color);
+    border: 1px solid var(--surface-border);
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+
+  .p-menubar .p-menubar-button:hover {
+    background: var(--surface-hover);
+    color: var(--primary-500);
+  }
+
+  /* Mobile menu list */
+  .p-menubar .p-menubar-root-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    border-top: none;
+    margin: 0;
+    padding: 1rem;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .p-menubar .p-menuitem {
+    width: 100%;
+  }
+
   .p-menubar .p-menuitem-link {
-    padding: 0.75rem 1.25rem;
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    font-size: 1.125rem;
+    justify-content: flex-start;
+  }
+
+  .p-menubar .p-menuitem-link .p-menuitem-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
   }
 }
+
 
 /* Card Enhancements */
 .p-card {
