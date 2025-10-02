@@ -136,8 +136,8 @@ body {
 }
 
 .stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-500);
 }
 
 .stat-card::before {
@@ -230,7 +230,6 @@ body {
 
 .p-button:not(.p-button-outlined):not(.p-button-text):not(.p-button-icon-only):hover {
   background: var(--primary-700);
-  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
@@ -246,7 +245,7 @@ body {
 }
 
 .p-button.p-button-outlined:hover {
-  background: var(--surface-hover);
+  background: var(--surface-border);
   border-color: var(--primary-500);
   color: var(--primary-500);
 }
@@ -459,7 +458,6 @@ body {
     background: var(--surface-hover) !important;
     color: var(--primary-500) !important;
     border-color: var(--primary-500) !important;
-    transform: translateX(4px);
   }
 
   .p-menubar .p-menuitem-link .p-menuitem-icon {
@@ -502,7 +500,6 @@ body {
 
 .p-card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
 }
 
 .p-card .p-card-header {
@@ -639,7 +636,6 @@ body {
 
 .p-datatable .p-datatable-tbody > tr:hover {
   background: var(--surface-hover);
-  transform: scale(1.01);
 }
 
 .p-datatable .p-datatable-tbody > tr > td {

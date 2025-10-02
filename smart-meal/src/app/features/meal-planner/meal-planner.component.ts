@@ -24,6 +24,29 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
   ],
   template: `
     <div>
+      <div class="week-navigation">
+        <p-button icon="pi pi-chevron-left" 
+                  [rounded]="true"
+                  [outlined]="true"
+                  (onClick)="previousWeek()"
+                  pTooltip="Poprzedni tydzień"></p-button>
+        
+        <div class="week-display">
+          <h2 class="week-title">{{ getWeekRangeDisplay() }}</h2>
+          <p-button label="Bieżący tydzień" 
+                    icon="pi pi-calendar"
+                    [outlined]="true"
+                    size="small"
+                    (onClick)="goToCurrentWeek()"></p-button>
+        </div>
+
+        <p-button icon="pi pi-chevron-right" 
+                  [rounded]="true"
+                  [outlined]="true"
+                  (onClick)="nextWeek()"
+                  pTooltip="Następny tydzień"></p-button>
+      </div>
+
       <div class="planner-header">
         <h1 class="page-title">Planer Posiłków</h1>
           <div class="action-buttons">
@@ -364,6 +387,61 @@ import { RecipeCardComponent } from '../../shared/components/recipe-card/recipe-
       grid-template-columns: 1fr;
     }
   }
+
+  .week-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem 2rem;
+    background: var(--surface-card);
+    border-radius: 16px;
+    border: 1px solid var(--surface-border);
+    gap: 2rem;
+  }
+
+  .week-display {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .week-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+    text-align: center;
+  }
+
+  :host ::ng-deep .week-navigation .p-button.p-button-rounded {
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .week-navigation {
+      padding: 1rem;
+      gap: 1rem;
+    }
+
+    .week-title {
+      font-size: 1rem;
+    }
+
+    :host ::ng-deep .week-navigation .p-button.p-button-rounded {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    :host ::ng-deep .week-navigation .p-button:not(.p-button-rounded) {
+      font-size: 0.8rem;
+      padding: 0.5rem 0.75rem;
+    }
+  }
   `]
 })
 export class MealPlannerComponent {
@@ -492,5 +570,29 @@ export class MealPlannerComponent {
 
   goToShopping(): void {
     this.router.navigate(['/shopping']);
+  }
+
+    // Add to component class:
+  getWeekRangeDisplay(): string {
+    const weekStart = this.mealPlannerService.selectedWeekStart();
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+    
+    const startStr = weekStart.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long' });
+    const endStr = weekEnd.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
+    
+    return `${startStr} - ${endStr}`;
+  }
+
+  previousWeek(): void {
+    this.mealPlannerService.previousWeek();
+  }
+
+  nextWeek(): void {
+    this.mealPlannerService.nextWeek();
+  }
+
+  goToCurrentWeek(): void {
+    this.mealPlannerService.goToCurrentWeek();
   }
 }

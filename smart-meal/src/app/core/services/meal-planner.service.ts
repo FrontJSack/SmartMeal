@@ -8,21 +8,54 @@ import { RecipeService } from './recipe.service';
   providedIn: 'root'
 })
 export class MealPlannerService {
-  private weekPlanSignal = signal<WeekPlan>(this.initWeekPlan());
+  // Track which week we're currently viewing
+  private selectedWeekStartSignal = signal<Date>(this.getCurrentMonday());
+  
+  // Store all week plans
+  private allWeekPlansSignal = signal<Record<string, WeekPlan>>({});
+  
+  // Computed: current week plan based on selected week
+  weekPlan = computed(() => {
+    const weekKey = this.getWeekKey(this.selectedWeekStartSignal());
+    const allPlans = this.allWeekPlansSignal();
+    
+    if (!allPlans[weekKey]) {
+      // Create new plan for this week if it doesn't exist
+      return this.createWeekPlan(this.selectedWeekStartSignal());
+    }
+    
+    return allPlans[weekKey];
+  });
 
-  weekPlan = this.weekPlanSignal.asReadonly();
+  selectedWeekStart = this.selectedWeekStartSignal.asReadonly();
 
   constructor(private recipeService: RecipeService) {
-    this.loadFromStorage();
+    this.loadAllFromStorage();
   }
 
-  private initWeekPlan(): WeekPlan {
-    const today = new Date();
-    const weekStart = this.getMonday(today);
+  private getCurrentMonday(): Date {
+    return this.getMonday(new Date());
+  }
+
+  private getMonday(date: Date): Date {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    d.setDate(diff);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  private getWeekKey(date: Date): string {
+    const monday = this.getMonday(date);
+    return monday.toISOString().split('T')[0]; // YYYY-MM-DD format
+  }
+
+  private createWeekPlan(weekStart: Date): WeekPlan {
     const days: DayOfWeek[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     
     const plan: WeekPlan = {
-      weekStart,
+      weekStart: new Date(weekStart),
       days: {} as Record<DayOfWeek, DayPlan>
     };
 
@@ -43,35 +76,86 @@ export class MealPlannerService {
     return plan;
   }
 
-  private getMonday(date: Date): Date {
-    const d = new Date(date);
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-    d.setDate(diff);
-    d.setHours(0, 0, 0, 0);
-    return d;
+  // Navigate to next week
+  nextWeek(): void {
+    const current = this.selectedWeekStartSignal();
+    const next = new Date(current);
+    next.setDate(current.getDate() + 7);
+    this.selectedWeekStartSignal.set(next);
+  }
+
+  // Navigate to previous week
+  previousWeek(): void {
+    const current = this.selectedWeekStartSignal();
+    const previous = new Date(current);
+    previous.setDate(current.getDate() - 7);
+    this.selectedWeekStartSignal.set(previous);
+  }
+
+  // Jump to current week
+  goToCurrentWeek(): void {
+    this.selectedWeekStartSignal.set(this.getCurrentMonday());
+  }
+
+  // Jump to specific week
+  goToWeek(date: Date): void {
+    this.selectedWeekStartSignal.set(this.getMonday(date));
   }
 
   addMeal(day: DayOfWeek, mealType: MealType, recipeId: string): void {
-    this.weekPlanSignal.update(plan => {
-      const newPlan = { ...plan };
-      newPlan.days[day].meals[mealType] = recipeId;
-      this.saveToStorage(newPlan);
-      return newPlan;
-    });
+    const weekKey = this.getWeekKey(this.selectedWeekStartSignal());
+    const currentPlan = this.weekPlan();
+    
+    const updatedPlan = {
+      ...currentPlan,
+      days: {
+        ...currentPlan.days,
+        [day]: {
+          ...currentPlan.days[day],
+          meals: {
+            ...currentPlan.days[day].meals,
+            [mealType]: recipeId
+          }
+        }
+      }
+    };
+
+    this.allWeekPlansSignal.update(plans => ({
+      ...plans,
+      [weekKey]: updatedPlan
+    }));
+
+    this.saveAllToStorage();
   }
 
   removeMeal(day: DayOfWeek, mealType: MealType): void {
-    this.weekPlanSignal.update(plan => {
-      const newPlan = { ...plan };
-      newPlan.days[day].meals[mealType] = null;
-      this.saveToStorage(newPlan);
-      return newPlan;
-    });
+    const weekKey = this.getWeekKey(this.selectedWeekStartSignal());
+    const currentPlan = this.weekPlan();
+    
+    const updatedPlan = {
+      ...currentPlan,
+      days: {
+        ...currentPlan.days,
+        [day]: {
+          ...currentPlan.days[day],
+          meals: {
+            ...currentPlan.days[day].meals,
+            [mealType]: null
+          }
+        }
+      }
+    };
+
+    this.allWeekPlansSignal.update(plans => ({
+      ...plans,
+      [weekKey]: updatedPlan
+    }));
+
+    this.saveAllToStorage();
   }
 
   getDayNutrition(day: DayOfWeek): NutritionInfo {
-    const plan = this.weekPlanSignal();
+    const plan = this.weekPlan();
     const dayPlan = plan.days[day];
     const recipeIds = Object.values(dayPlan.meals).filter(id => id !== null) as string[];
     
@@ -90,45 +174,64 @@ export class MealPlannerService {
   }
 
   clearWeek(): void {
-    this.weekPlanSignal.set(this.initWeekPlan());
-    localStorage.removeItem('smart-meal-plan');
+    const weekKey = this.getWeekKey(this.selectedWeekStartSignal());
+    const emptyPlan = this.createWeekPlan(this.selectedWeekStartSignal());
+    
+    this.allWeekPlansSignal.update(plans => ({
+      ...plans,
+      [weekKey]: emptyPlan
+    }));
+
+    this.saveAllToStorage();
   }
 
-  private saveToStorage(plan: WeekPlan): void {
-    const serialized = {
-      weekStart: plan.weekStart.toISOString(),
-      days: Object.entries(plan.days).map(([day, dayPlan]) => [
-        day,
-        { ...dayPlan, date: dayPlan.date.toISOString() }
-      ])
-    };
-    localStorage.setItem('smart-meal-plan', JSON.stringify(serialized));
+  private saveAllToStorage(): void {
+    const plans = this.allWeekPlansSignal();
+    const serialized: Record<string, any> = {};
+
+    Object.entries(plans).forEach(([weekKey, plan]) => {
+      serialized[weekKey] = {
+        weekStart: plan.weekStart.toISOString(),
+        days: Object.entries(plan.days).reduce((acc, [day, dayPlan]) => {
+          acc[day] = {
+            ...dayPlan,
+            date: dayPlan.date.toISOString()
+          };
+          return acc;
+        }, {} as Record<string, any>)
+      };
+    });
+
+    localStorage.setItem('smart-meal-plans', JSON.stringify(serialized));
   }
 
-  private loadFromStorage(): void {
-    const stored = localStorage.getItem('smart-meal-plan');
+  private loadAllFromStorage(): void {
+    const stored = localStorage.getItem('smart-meal-plans');
     if (!stored) return;
 
     try {
       const parsed = JSON.parse(stored);
-      const weekStart = new Date(parsed.weekStart);
-      const currentMonday = this.getMonday(new Date());
+      const loadedPlans: Record<string, WeekPlan> = {};
 
-      if (weekStart.getTime() !== currentMonday.getTime()) {
-        return; // Old plan, don't load
-      }
+      Object.entries(parsed).forEach(([weekKey, planData]: [string, any]) => {
+        const days: Record<string, DayPlan> = {};
+        
+        Object.entries(planData.days).forEach(([day, dayPlan]: [string, any]) => {
+          days[day] = {
+            ...dayPlan,
+            date: new Date(dayPlan.date)
+          };
+        });
 
-      const days: Record<string, DayPlan> = {};
-      parsed.days.forEach(([day, dayPlan]: [string, any]) => {
-        days[day] = {
-          ...dayPlan,
-          date: new Date(dayPlan.date)
+        loadedPlans[weekKey] = {
+          weekStart: new Date(planData.weekStart),
+          days: days as Record<DayOfWeek, DayPlan>
         };
       });
 
-      this.weekPlanSignal.set({ weekStart, days: days as Record<DayOfWeek, DayPlan> });
+      this.allWeekPlansSignal.set(loadedPlans);
     } catch (error) {
-      console.error('Error loading meal plan', error);
+      console.error('Error loading meal plans', error);
     }
   }
 }
