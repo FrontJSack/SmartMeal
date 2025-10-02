@@ -513,13 +513,13 @@ body {
   }
 }
 
-/* Card Enhancements */
+/* Card Enhancements - FIXED OVERFLOW */
 .p-card {
   background: var(--surface-card);
   border: 1px solid var(--surface-border);
   border-radius: 18px;
   box-shadow: var(--shadow-sm);
-  overflow: hidden;
+  overflow: visible; /* CHANGED FROM hidden TO visible */
   transition: all var(--transition-base);
 }
 
@@ -538,44 +538,18 @@ body {
 
 .p-card .p-card-body {
   padding: 1.75rem;
+  overflow: visible; /* ADDED */
 }
 
 .p-card .p-card-content {
   padding: 0;
+  overflow: visible; /* ADDED */
 }
 
 .p-card .p-card-footer {
   padding: 1.25rem 1.75rem;
   border-top: 1px solid var(--surface-border);
   background: var(--surface-section);
-}
-
-/* Input Fields */
-.p-inputtext,
-.p-dropdown,
-.p-multiselect,
-.p-inputnumber-input {
-  padding: 0.875rem 1.25rem;
-  border-radius: 12px;
-  border: 1px solid var(--surface-border);
-  background: var(--surface-card);
-  color: var(--text-color);
-  font-size: 0.9375rem;
-  transition: all var(--transition-base);
-}
-
-.p-inputtext:enabled:hover,
-.p-dropdown:not(.p-disabled):hover,
-.p-multiselect:not(.p-disabled):hover {
-  border-color: var(--surface-overlay);
-}
-
-.p-inputtext:enabled:focus,
-.p-dropdown:not(.p-disabled).p-focus,
-.p-multiselect:not(.p-disabled).p-focus {
-  border-color: var(--primary-500);
-  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
-  outline: none;
 }
 
 /* Checkbox */
@@ -727,4 +701,100 @@ body {
 /* Smooth page transitions */
 router-outlet + * {
   animation: fadeInUp var(--transition-slow);
+}
+
+/* Smooth page transitions */
+router-outlet + * {
+  animation: fadeInUp var(--transition-slow);
+}
+
+/* Ensure body and main container work properly */
+body {
+  overflow-x: hidden;
+}
+
+.layout-main-container {
+  overflow: visible;
+}
+
+/* Dialog datepicker uses inline mode, so we just need basic styling */
+.p-datepicker {
+  background: var(--surface-card);
+  border: none;
+  border-radius: 12px;
+}
+
+.p-datepicker .p-datepicker-header {
+  background: transparent;
+  border: none;
+  padding: 0.75rem 0 1rem 0;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.p-datepicker .p-datepicker-title {
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.p-datepicker .p-datepicker-prev,
+.p-datepicker .p-datepicker-next {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 8px;
+  color: var(--text-color);
+  transition: all 0.2s;
+}
+
+.p-datepicker .p-datepicker-prev:hover,
+.p-datepicker .p-datepicker-next:hover {
+  background: var(--surface-hover);
+  color: var(--primary-500);
+}
+
+.p-datepicker .p-datepicker-calendar thead th {
+  color: var(--text-color-secondary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.5rem;
+}
+
+.p-datepicker table td {
+  padding: 0.25rem;
+}
+
+.p-datepicker table td > span {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 8px;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  transition: all 0.15s;
+  margin: 0 auto;
+  background: transparent;
+}
+
+.p-datepicker table td > span:hover {
+  background: var(--surface-hover);
+  color: var(--primary-500);
+}
+
+.p-datepicker table td > span.p-highlight {
+  background: var(--primary-600);
+  color: white;
+  font-weight: 600;
+}
+
+.p-datepicker table td.p-datepicker-today > span:not(.p-highlight) {
+  border: 2px solid var(--primary-500);
+}
+
+.p-datepicker table td.p-datepicker-other-month > span {
+  color: var(--text-color-secondary);
+  opacity: 0.4;
 }
