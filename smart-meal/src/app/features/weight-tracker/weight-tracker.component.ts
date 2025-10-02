@@ -29,8 +29,8 @@ import { WeightEntry } from '../../core/models/weight.model';
     <div>
       <h1 class="page-title mb-4">Śledzenie Wagi</h1>
 
-      <div class="grid" style="grid-template-columns: 1fr 2fr; gap: 2rem; margin-bottom: 2rem;">
-        <div>
+      <div class="weight-grid">
+        <div class="weight-form-card">
           <p-card header="Dodaj pomiar wagi">
             <div class="form-field">
               <label for="weight">Waga (kg)</label>
@@ -57,6 +57,7 @@ import { WeightEntry } from '../../core/models/weight.model';
               <input pInputText
                      [(ngModel)]="newNotes"
                      inputId="notes"
+                     placeholder="Dodaj notatkę..."
                      [style]="{'width': '100%'}" />
             </div>
 
@@ -67,7 +68,7 @@ import { WeightEntry } from '../../core/models/weight.model';
           </p-card>
         </div>
 
-        <div>
+        <div class="weight-stats-card">
           <p-card header="Twoje postępy">
             <div class="stats-grid">
               <div class="stat-card">
@@ -108,8 +109,7 @@ import { WeightEntry } from '../../core/models/weight.model';
 
       <p-card header="Historia pomiarów">
         <p-table [value]="weightService.entries()" 
-                 [tableStyle]="{'min-width': '50rem'}"
-                 styleClass="p-datatable-sm">
+                 [tableStyle]="{'min-width': '50rem'}">
           <ng-template pTemplate="header">
             <tr>
               <th>Data</th>
@@ -142,8 +142,8 @@ import { WeightEntry } from '../../core/models/weight.model';
           </ng-template>
           <ng-template pTemplate="emptymessage">
             <tr>
-              <td colspan="5" class="text-center">
-                <div style="padding: 2rem; color: var(--text-color-secondary);">
+              <td colspan="5">
+                <div class="empty-state">
                   <i class="pi pi-inbox" style="font-size: 2rem; display: block; margin-bottom: 1rem;"></i>
                   Brak pomiarów wagi. Dodaj swój pierwszy pomiar!
                 </div>
@@ -161,9 +161,10 @@ import { WeightEntry } from '../../core/models/weight.model';
 
     .form-field label {
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
       font-weight: 600;
       color: var(--text-color);
+      font-size: 0.9375rem;
     }
 
     .stats-grid {
@@ -172,15 +173,114 @@ import { WeightEntry } from '../../core/models/weight.model';
       gap: 1.5rem;
     }
 
-    .stat-card {
-      padding: 1.5rem;
-      background: var(--surface-section);
-      border-radius: 8px;
-      text-align: center;
+    /* Fix DatePicker visibility */
+    :host ::ng-deep .p-datepicker {
+      background: var(--surface-card) !important;
+      border: 1px solid var(--surface-border) !important;
+      border-radius: 16px !important;
+      box-shadow: var(--shadow-lg) !important;
+      padding: 1rem !important;
+    }
+
+    :host ::ng-deep .p-datepicker .p-datepicker-header {
+      background: var(--surface-section) !important;
+      border-radius: 12px !important;
+      padding: 0.75rem !important;
+      margin-bottom: 0.75rem !important;
+      border: none !important;
+    }
+
+    :host ::ng-deep .p-datepicker .p-datepicker-title {
+      color: var(--text-color) !important;
+      font-weight: 600 !important;
+    }
+
+    :host ::ng-deep .p-datepicker table {
+      margin-top: 0.5rem !important;
+    }
+
+    :host ::ng-deep .p-datepicker table td {
+      padding: 0.5rem !important;
+    }
+
+    :host ::ng-deep .p-datepicker table td > span {
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+      border-radius: 10px !important;
+      color: var(--text-color) !important;
+      transition: all var(--transition-base) !important;
+    }
+
+    :host ::ng-deep .p-datepicker table td > span:hover {
+      background: var(--surface-hover) !important;
+    }
+
+    :host ::ng-deep .p-datepicker table td > span.p-highlight {
+      background: var(--primary-600) !important;
+      color: white !important;
+    }
+
+    :host ::ng-deep .p-datepicker .p-datepicker-calendar thead tr th {
+      color: var(--text-color-secondary) !important;
+      font-weight: 600 !important;
+      padding: 0.5rem !important;
+    }
+
+    :host ::ng-deep .p-datepicker-prev,
+    :host ::ng-deep .p-datepicker-next {
+      color: var(--text-color) !important;
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+      border-radius: 10px !important;
+      transition: all var(--transition-base) !important;
+    }
+
+    :host ::ng-deep .p-datepicker-prev:hover,
+    :host ::ng-deep .p-datepicker-next:hover {
+      background: var(--surface-hover) !important;
+      color: var(--primary-500) !important;
+    }
+
+    /* Enhanced Table Styling */
+    :host ::ng-deep .p-datatable {
+      border-radius: 16px !important;
+      overflow: hidden !important;
+    }
+
+    :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+      background: var(--surface-section) !important;
+      color: var(--text-color) !important;
+      font-weight: 600 !important;
+      border-bottom: 2px solid var(--surface-border) !important;
+      padding: 1.25rem 1.5rem !important;
+      font-size: 0.9375rem !important;
+    }
+
+    :host ::ng-deep .p-datatable .p-datatable-tbody > tr {
+      background: var(--surface-card) !important;
+      transition: all var(--transition-base) !important;
+    }
+
+    :host ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
+      background: var(--surface-hover) !important;
+      transform: scale(1.005) !important;
     }
 
     :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-      padding: 1rem;
+      padding: 1.25rem 1.5rem !important;
+      border-bottom: 1px solid var(--surface-border) !important;
+      color: var(--text-color) !important;
+      font-size: 0.9375rem !important;
+    }
+
+    :host ::ng-deep .p-datatable .p-datatable-tbody > tr:last-child > td {
+      border-bottom: none !important;
+    }
+
+    .empty-state {
+      padding: 2rem !important;
+      text-align: center !important;
+      color: var(--text-color-secondary) !important;
     }
 
     @media (max-width: 992px) {
@@ -192,7 +292,20 @@ import { WeightEntry } from '../../core/models/weight.model';
         grid-template-columns: 1fr !important;
       }
     }
-  `]
+
+    .weight-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    }
+
+    @media (max-width: 992px) {
+      .weight-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    `]
 })
 export class WeightTrackerComponent {
   weightService = inject(WeightTrackerService);
@@ -213,7 +326,6 @@ export class WeightTrackerComponent {
       this.newNotes || undefined
     );
 
-    // Reset form
     this.newWeight = null;
     this.newDate = new Date();
     this.newNotes = '';
