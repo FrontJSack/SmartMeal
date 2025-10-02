@@ -209,11 +209,11 @@ body {
 /* Enhanced Buttons */
 .p-button {
   font-weight: 600;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   padding: 0.875rem 1.75rem;
   border-radius: 14px;
   transition: all var(--transition-base);
-  border: none;
+  border: 2px solid transparent;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -223,20 +223,25 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
+/* Primary buttons (solid) */
 .p-button:not(.p-button-outlined):not(.p-button-text):not(.p-button-icon-only) {
-  background: var(--primary-600);
+  background: var(--primary-500);
   color: white;
+  border-color: var(--primary-600);
 }
 
 .p-button:not(.p-button-outlined):not(.p-button-text):not(.p-button-icon-only):hover {
   background: var(--primary-700);
+  border-color: var(--primary-500);
   box-shadow: var(--shadow-md);
+  transition: 250ms;
 }
 
 .p-button:active {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
+/* Outlined buttons */
 .p-button.p-button-outlined {
   background: transparent;
   border: 2px solid var(--surface-border);
@@ -245,27 +250,33 @@ body {
 }
 
 .p-button.p-button-outlined:hover {
-  background: var(--surface-border);
-  border-color: var(--primary-500);
-  color: var(--primary-500);
+  background: transparent;
+  border: 2px solid var(--primary-500) !important;
+  box-shadow: var(--shadow-sm);
+  transition: 250ms;
 }
 
+/* Text buttons */
 .p-button.p-button-text {
   background: transparent;
   color: var(--text-color-secondary);
   padding: 0.75rem 1.25rem;
   box-shadow: none;
+  border-color: transparent;
 }
 
 .p-button.p-button-text:hover {
   background: var(--surface-hover);
-  color: var(--text-color);
+  color: var(--primary-500);
+  border-color: var(--surface-border);
 }
 
+/* Rounded buttons */
 .p-button.p-button-rounded {
   border-radius: 2rem;
 }
 
+/* Icon-only buttons */
 .p-button.p-button-icon-only {
   width: 3rem;
   height: 3rem;
@@ -273,6 +284,7 @@ body {
   border-radius: 50%;
 }
 
+/* Size variants */
 .p-button.p-button-sm {
   padding: 0.625rem 1.25rem;
   font-size: 0.875rem;
@@ -283,12 +295,25 @@ body {
   font-size: 1rem;
 }
 
+/* Danger buttons */
 .p-button[severity="danger"]:not(.p-button-outlined) {
   background: #dc2626;
+  border-color: #dc2626;
 }
 
 .p-button[severity="danger"]:not(.p-button-outlined):hover {
   background: #b91c1c;
+  border-color: #dc2626;
+}
+
+.p-button[severity="danger"].p-button-outlined {
+  border-color: var(--surface-border);
+  color: #dc2626;
+}
+
+.p-button[severity="danger"].p-button-outlined:hover {
+  border-color: #dc2626;
+  color: #dc2626;
 }
 
 .p-menubar {
